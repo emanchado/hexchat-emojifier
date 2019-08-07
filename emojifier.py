@@ -37,7 +37,10 @@ def autocomplete(avoid_infinite_loop=False):
             emoji_autocompletion.append(v)
     if not avoid_infinite_loop:
         if len(emoji_autocompletion) > 1:
-            print(emoji_autocompletion)
+            print([
+                "%s (%s)" % (e, emoji.emojize(e, use_aliases=True))
+                for e in emoji_autocompletion
+            ])
         if emoji_autocompletion:
             emoji_autocompletion = cycle(emoji_autocompletion)
         return autocomplete(True)
