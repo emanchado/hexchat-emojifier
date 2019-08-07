@@ -11,7 +11,7 @@ __module_description__ = "Translate the text with colons into emojis"
 print("Loading emojifier")
 EMOJI_VALUES = list(emoji.UNICODE_EMOJI.values())
 EMOJI_VALUES.extend(list(emoji.UNICODE_EMOJI_ALIAS.values()))
-EMOJI_VALUES = sorted(EMOJI_VALUES)
+EMOJI_VALUES = sorted(set(EMOJI_VALUES))
 emoji_autocompletion = []
 last_msg = []
 
