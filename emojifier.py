@@ -26,6 +26,7 @@ def autocomplete(avoid_infinite_loop=False):
         suggestion = next(emoji_autocompletion)
         replaced = ':'.join(last_msg[:-1]) + suggestion
         hexchat.command("settext %s" % replaced)
+        hexchat.command("setcursor %s" % len(replaced))
         return hexchat.EAT_ALL
     last_msg = msg.split(':')
     if len(last_msg) == 1 or not last_msg[-1]:
