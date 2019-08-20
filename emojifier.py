@@ -1,4 +1,5 @@
 from itertools import cycle
+from os.path import expanduser
 import emoji
 import hexchat
 
@@ -11,6 +12,20 @@ __module_description__ = "Translate the text with colons into emojis"
 print("Loading emojifier")
 EMOJI_VALUES = list(emoji.UNICODE_EMOJI.values())
 EMOJI_VALUES.extend(list(emoji.UNICODE_EMOJI_ALIAS.values()))
+
+# See if there's a skin tone preference
+try:
+    with open(expanduser("~/.config/hexchat/emojifier_skin_tone")) as r:
+        skin_preference = r.read().strip()
+        EMOJI_VALUES = [
+            emoji
+            for emoji in EMOJI_VALUES
+            if "skin_tone" not in emoji or skin_preference in emoji
+        ]
+except FileNotFoundError:
+    pass
+
+
 EMOJI_VALUES = sorted(set(EMOJI_VALUES))
 emoji_autocompletion = []
 last_msg = []
