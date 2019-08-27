@@ -17,10 +17,22 @@ EMOJI_VALUES.extend(list(emoji.UNICODE_EMOJI_ALIAS.values()))
 try:
     with open(expanduser("~/.config/hexchat/emojifier_skin_tone")) as r:
         skin_preference = r.read().strip()
+        # Find all the emojis that have that skin preference,
+        # calculate their "roots", and remove the basic, yellow
+        # versions.
+        full_skin_suffix = "_{}_skin_tone".format(skin_preference)
+        emojis_to_remove = [
+            emoji.replace(full_skin_suffix, "")
+            for emoji in EMOJI_VALUES
+            if full_skin_suffix in emoji
+        ]
         EMOJI_VALUES = [
             emoji
             for emoji in EMOJI_VALUES
-            if "skin_tone" not in emoji or skin_preference in emoji
+            if full_skin_suffix in emoji or (
+                    "skin_tone" not in emoji and
+                    emoji not in emojis_to_remove
+            )
         ]
 except FileNotFoundError:
     pass
